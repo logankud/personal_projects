@@ -11,9 +11,9 @@ This repo contains all of my personal coding projects
 ## Skills
 
 **Languages**
-* Python (Pandas, Numpy, Requests, Sci-kit Learn
+* Python (Pandas, Numpy, Requests, Sci-kit Learn, Transformers, Networkx)
 * SQL (Presto, Hive, MSSQL)
-* R    
+* R (Ggplot2, Dplyr, Tidyr)
 
 **Data** **Visualization**
 * Tableau
@@ -46,6 +46,8 @@ This repo contains all of my personal coding projects
 
 
 ## Experience
+
+
 
 ## Education
 
