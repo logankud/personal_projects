@@ -11,34 +11,34 @@ This repo contains all of my personal coding projects
 ## Skills
 
 **Languages**
-- Python (Pandas, Numpy, Requests, Sci-kit Learn
-- SQL (Presto, Hive, MSSQL)
-- R
-**Data Visualization**
-- Tableau
-- Grafana
-- Python (Plotly, Matplotlib)
-- PowerBI
+* Python (Pandas, Numpy, Requests, Sci-kit Learn
+* SQL (Presto, Hive, MSSQL)
+* R
+**Data** **Visualization**
+* Tableau
+* Grafana
+* Python (Plotly, Matplotlib)
+* PowerBI
 **AWS**
-- Lambda
-- Glue (ETL, Data Catalog, Crawler)
-- Athena
-- S3
-- CloudWatch
-- SageMaker
-- EMR
-- RDS
-- API Gateway
+* Lambda
+* Glue (ETL, Data Catalog, Crawler)
+* Athena
+* S3
+* CloudWatch
+* SageMaker
+* EMR
+* RDS
+* API Gateway
 **CI/CD**
-- Jenkins
-- BitBucket (Git)
-- JAMS Scheduler
-- Jira
+* Jenkins
+* BitBucket (Git)
+* JAMS Scheduler
+* Jira
 **Other**
-- Splunk
-- Adobe Analytics
-- Collibra
-- CRIBL
+* Splunk
+* Adobe Analytics
+* Collibra
+* CRIBL
 
 
 ## Experience
