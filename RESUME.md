@@ -13,12 +13,14 @@ This repo contains all of my personal coding projects
 **Languages**
 * Python (Pandas, Numpy, Requests, Sci-kit Learn
 * SQL (Presto, Hive, MSSQL)
-* R  
+* R    
+
 **Data** **Visualization**
 * Tableau
 * Grafana
 * Python (Plotly, Matplotlib)
 * PowerBI  
+
 **AWS**
 * Lambda
 * Glue (ETL, Data Catalog, Crawler)
@@ -29,11 +31,13 @@ This repo contains all of my personal coding projects
 * EMR
 * RDS
 * API Gateway  
+
 **CI/CD**
 * Jenkins
 * BitBucket (Git)
 * JAMS Scheduler
 * Jira  
+
 **Other**
 * Splunk
 * Adobe Analytics
