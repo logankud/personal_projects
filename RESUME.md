@@ -44,8 +44,8 @@ This repo contains all of my personal coding projects
 
 ## Experience
 
-**FINRA, Senior Data Analyst**
-*Sep. 2021 - Present*
+**FINRA, Senior Data Analyst**  
+*Sep. 2021 - Present*  
 * TEST
 
 
