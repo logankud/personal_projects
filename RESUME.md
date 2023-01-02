@@ -5,9 +5,6 @@ This repo contains all of my personal coding projects
 
 # Resume
 
-![alt text](https://github.com/logankud/personal_projects/blob/main/banner_pic.png?raw=true)
-
-
 ## Skills
 
 **Languages**
@@ -47,6 +44,9 @@ This repo contains all of my personal coding projects
 
 ## Experience
 
+**FINRA, Senior Data Analyst**
+*Sep. 2021 - Present*
+* TEST
 
 
 ## Education
