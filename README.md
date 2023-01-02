@@ -1,7 +1,4 @@
-# personal_projects
-This repo contains all of my personal coding projects
-
-
+Welcome! This repo contains all of my personal coding projects.
 
 # Resume
 
@@ -72,9 +69,8 @@ This repo contains all of my personal coding projects
 * Made improvements to recurring reporting by creating Excel macros to automate formatting  
 
 ## Presentations
-**AWS Re:Invent 2022 Breakout Session - "Democratize Data and Solve Issues Faster with Grafana"**
-[**AWS Re:Invent 2022 Breakout Session - "Democratize Data and Solve Issues Faster with Grafana"**](https://lnkd.in/ezCPEaHC)
-*November 2022*
+[**AWS Re:Invent 2022 Breakout Session - "Democratize Data and Solve Issues Faster with Grafana"**](https://lnkd.in/ezCPEaHC)  
+*November 2022*  
 
 ## Awards 
 **FINRA Createathon 2022 Challenge Grand Prize Winner**  
