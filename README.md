@@ -46,23 +46,23 @@ Welcome! This repo contains all of my personal coding projects.
 * Designed and implemented a fully serverless datalake using AWS services
 * Write ETL pipelines leveraging Python and AWS services
 * Manage deployment of ETL pipelines and data lake infrastructure using Jenkins
-* Design and build executive summary dashboards using AWS Grafana
+* Design and build executive summary dashboards using AWS Grafana  
 **Prymal, Inc. - Operations Data Analyst**  
 *Aug. 2018 - Present*  
 * Build Tableau dashboards to generate visualizations to analyze sales trends
 * Predictive CLV model built in R to understand future value of customers
-* Use R and Python to perform EDA on sales data in order to understand customer behavior 
+* Use R and Python to perform EDA on sales data in order to understand customer behavior   
 **Vanguard Group, Inc. - Client Experience Data Analyst**  
 *Dec. 2020 - Sep. 2021*  
 * Analyize web traffic and monitor application performance for a customer facing web application
 * Design experimentation and perform statistical testing to inform UI/UX decisions
 * Spin up EC2 instance and use Athena, HUE and PySpark to query and stage data for reporting
-* Build Tableau dashboards to visualize and monitor app team KPIs
+* Build Tableau dashboards to visualize and monitor app team KPIs  
 **Bentley Systems, Inc. - Enterprise License Subscription Analyst**  
 *Nov. 2016 - Dec. 2020*  
 * Generate detailed usage reports using standardized queries in Microsoft Access								
 * Extract ad-hoc usage data with SQL queries using Microsoft SQL Server								
-* Work with database administrators to standardize queries to automate recurring requests				  	
+* Work with database administrators to standardize queries to automate recurring requests	 			  	
 **Amerigas, Inc. - Senior Credit Representative**    
 *June 2015 - Nov. 2016*  		
 * Generated and analyzed weekly credit reports to be distributed to Regional Managers
