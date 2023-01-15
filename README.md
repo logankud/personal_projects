@@ -44,6 +44,7 @@ Welcome! This repo contains all of my personal coding projects.
 **FINRA - Senior Data Analyst**  
 *Sep. 2021 - Present*  
 * Designed and implemented a fully serverless datalake using AWS services
+* Consolidate multiple DevOps and Cloud Service log data sources to build an Application Portfolio dashboard and alerting system to deliver insights to VPs amd PMs 
 * Write ETL pipelines leveraging Python and AWS services
 * Manage deployment of ETL pipelines and data lake infrastructure using Jenkins
 * Design and build executive summary dashboards using AWS Grafana  
