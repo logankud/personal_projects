@@ -17,7 +17,7 @@ jobs:
       #     python-version: '3.9'
 
       - name: Extract Shopify Orders & Line Items
-        run: python shopify_extraction.py
+        run: python prymal/data_pipelines/shopify_extraction.py
 
       - name: Transform data
         run: python transform.py
