@@ -26,8 +26,8 @@ SHOPIFY_API_PASSWORD = os.environ['SHOPIFY_API_PASSWORD']
 
 API_VERSION = '2021-07'
 
-START_DATE = pd.to_datetime('2018-06-29').strftime('%Y-%m-%d %H:%M:%S')
-END_DATE = pd.to_datetime('2023-06-28').strftime('%Y-%m-%d %H:%M:%S')
+START_DATE = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y-%m-%d 00:00:00')
+END_DATE = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y-%m-%d 23:59:59')
 
 SHOPIFY_URL = f'https://{SHOPIFY_API_KEY}:{SHOPIFY_API_PASSWORD}@prymal-coffee-creamer.myshopify.com/admin/api/{API_VERSION}'
 
