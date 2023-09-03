@@ -25,11 +25,6 @@ logger.info(f'Start time: {start_time}')
 SHOPIFY_API_KEY = os.environ['SHOPIFY_API_KEY']
 SHOPIFY_API_PASSWORD = os.environ['SHOPIFY_API_PASSWORD']
 
-<<<<<<< HEAD
-=======
-BUCKET = os.environ['S3_PRYMAL']
->>>>>>> baeee7127aaa94c7fc11e57a24b7cc27c90d1a23
-
 API_VERSION = '2021-07'
 
 START_DATE = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y-%m-%d 00:00:00')
