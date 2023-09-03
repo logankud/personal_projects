@@ -229,7 +229,7 @@ sts_client = boto3.client('sts',
 # Assume a role using the STS client
 response = sts_client.assume_role(
     RoleArn=AWS_USER_ARN,  
-    RoleSessionName=f'session_{datetime.datetime.now()}',
+    RoleSessionName=f'session_{datetime.datetime.now().strftime("%Y%m%d%H%M%S")}',
     DurationSeconds=3600  
 )
 
