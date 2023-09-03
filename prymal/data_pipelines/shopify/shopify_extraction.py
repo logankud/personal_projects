@@ -216,7 +216,7 @@ logger.info(f'Elaspsed time: {current_time - start_time}')
 # CONFIGURE BOTO  =======================================
 
 # Create s3 client
-s3_client = boto3.client('s3', region = 'us-east-1')
+s3_client = boto3.client('s3', region_name = 'us-east-1')
 
 # Set bucket
 BUCKET = os.environ['S3_PRYMAL']
