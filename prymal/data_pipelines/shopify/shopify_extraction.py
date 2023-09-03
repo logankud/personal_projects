@@ -222,7 +222,9 @@ AWS_SECRET_ACCESS_KEY=os.environ['AWS_ACCESS_SECRET']
 AWS_USER_ARN=os.environ['AWS_USER_ARN']
 
 # Create a client for the AWS Security Token Service (STS)
-sts_client = boto3.client('sts')
+sts_client = boto3.client('sts',
+                  aws_access_key_id=AWS_ACCESS_KEY_ID,
+                  aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
 # Assume a role using the STS client
 response = sts_client.assume_role(
