@@ -29,7 +29,9 @@ jobs:
           SHOPIFY_API_PASSWORD: ${{ secrets.SHOPIFY_API_PASSWORD }}
           S3_PRYMAL:  ${{ secrets.S3_PRYMAL }}
           AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
           AWS_ACCOUNT_ID:  ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_USER_ARN:  ${{ secrets.AWS_USER_ARN }}
         run: python prymal/data_pipelines/shopify/shopify_extraction.py 
         
 
