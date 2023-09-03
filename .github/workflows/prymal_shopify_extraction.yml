@@ -27,14 +27,10 @@ jobs:
         env: 
           SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
           SHOPIFY_API_PASSWORD: ${{ secrets.SHOPIFY_API_PASSWORD }}
-<<<<<<< HEAD
           S3_PRYMAL:  ${{ secrets.S3_PRYMAL }}
           AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
           AWS_ACCOUNT_ID:  ${{ secrets.AWS_ACCOUNT_ID }}
         run: python prymal/data_pipelines/shopify/shopify_extraction.py 
-=======
-        run: python prymal/data_pipelines/shopify/shopify_extraction.py
->>>>>>> baeee7127aaa94c7fc11e57a24b7cc27c90d1a23
         
 
       - name: Transform data
