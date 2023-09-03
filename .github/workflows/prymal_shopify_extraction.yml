@@ -24,7 +24,14 @@ jobs:
           pip install -r prymal/data_pipelines/shopify/requirements.txt
     
       - name: Extract Shopify Orders & Line Items
-        run: python prymal/data_pipelines/shopify/shopify_extraction.py
+        env: 
+          SHOPIFY_API_KEY: ${{ secrets.SHOPIFY_API_KEY }}
+          SHOPIFY_API_PASSWORD: ${{ secrets.SHOPIFY_API_PASSWORD }}
+          S3_PRYMAL:  ${{ secrets.S3_PRYMAL }}
+          AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_ACCOUNT_ID:  ${{ secrets.AWS_ACCOUNT_ID }}
+        run: python prymal/data_pipelines/shopify/shopify_extraction.py 
+        
 
       - name: Transform data
         run: python transform.py
