@@ -6,4 +6,3 @@ datetime
 pytz
 psycopg2
 loguru
-re
