@@ -13,6 +13,7 @@ import psycopg2
 import loguru
 from loguru import logger
 import re
+import io
 
 # -------------------------------------
 # Variables
@@ -212,67 +213,78 @@ current_time = datetime.datetime.now()
 logger.info(f'Current time: {current_time}')
 logger.info(f'Elaspsed time: {current_time - start_time}')
 
-# CONNECT TO DATABASE =======================================
+# CONFIGURE BOTO  =======================================
 
-logger.info('Connecting to database')
+# Create s3 client
+s3_client = boto3.client('s3', region = 'us-east-1')
 
-# Connect to database
-conn = psycopg2.connect(host=os.environ['PGHOST'],
-                        dbname=os.environ['PGDATABASE'],
-                        user=os.environ['PGUSER'],
-                        password=os.environ['PGPASSWORD'])
+# Set bucket
+BUCKET = os.environ['S3_PRYMAL']
 
-# Create cursor object
-cur = conn.cursor()
-
-# WRITE ORDERS TO DB =======================================
+# WRITE ORDERS TO S3 =======================================
 
 current_time = datetime.datetime.now()
 logger.info(f'Current time: {current_time}')
-logger.info(f'Elaspsed time: {current_time - start_time}')
-logger.info('Writing to shopify_orders')
 
-# iterate over the rows in your dataframe and execute a SQL INSERT statement for each row
-for index, row in shopify_orders_df.iterrows():
+logger.info(f'{len(shopify_orders_df)} rows in shopify_orders_df')
 
-  # Insert record
-  cur.execute(
-    """
-    INSERT INTO shopify_orders (order_id, email, created_at, shipping_address,     shipping_city,shipping_province, shipping_country, subtotal_price,total_line_items_price, total_tax, total_discounts,total_shipping_fee, total_price)
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """,
-    (row['order_id'], row['email'], row['created_at'], row['shipping_address'],
-     row['shipping_city'], row['shipping_province'], row['shipping_country'],
-     row['subtotal_price'], row['total_line_items_price'], row['total_tax'],
-     row['total_discounts'], row['total_shipping_fee'], row['total_price']))
 
-  # Commit transaction
-  conn.commit()
+ORDER_DATE = pd.to_datetime(START_DATE).strftime('%Y-%m-%d')
 
-# WRITE LINE ITEMS TO DB =======================================
-# iterate over the rows in your dataframe and execute a SQL INSERT statement for each row
+# Configure S3 Prefix
+S3_PREFIX_PATH = f"shopify/orders/order_date={ORDER_DATE}/shopify_orders_{ORDER_DATE}.csv"
 
-logger.info(f'Current time: {current_time}')
-logger.info(f'Elaspsed time: {current_time - start_time}')
-logger.info('Writing to shopify_line_items')
+logger.info(f'Writing to {S3_PREFIX_PATH}')
 
-for index, row in shopify_line_item_df.iterrows():
-  # Insert record
-  cur.execute(
-    """
-    INSERT INTO shopify_line_items (order_id, email, created_at, price, quantity, sku, title, variant_title, line_item_name)  
-    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (row['order_id'], row['email'], row['created_at'], row['price'],
-          row['quantity'], row['sku'], row['title'], row['variant_title'],
-          row['line_item_name']))
 
-  # Commit transaction
-  conn.commit()
+with io.StringIO() as csv_buffer:
+    shopify_orders_df.to_csv(csv_buffer, index=False)
+
+    response = s3_client.put_object(
+        Bucket=BUCKET, 
+        Key=S3_PREFIX_PATH, 
+        Body=csv_buffer.getvalue()
+    )
+
+    status = response['ResponseMetadata']['HTTPStatusCode']
+
+    if status == 200:
+        logger.info(f"Successful S3 put_object response for PUT ({S3_PREFIX_PATH}). Status - {status}")
+    else:
+        logger.error(f"Unsuccessful S3 put_object response for PUT ({S3_PREFIX_PATH}. Status - {status}")
+
+
+
+# WRITE LINE ITEMS TO S3 =======================================
+
 
 current_time = datetime.datetime.now()
-logger.info(f'End time: {current_time}')
-logger.info(f'Total Elaspsed time: {current_time - start_time}')
+logger.info(f'Current time: {current_time}')
 
-# Close cursor and connection
-cur.close()
-conn.close()
+
+logger.info(f'{len(shopify_line_item_df)} rows in shopify_line_item_df')
+
+ORDER_DATE = pd.to_datetime(START_DATE).strftime('%Y-%m-%d')
+
+# Configure S3 Prefix
+S3_PREFIX_PATH = f"shopify/line_items/order_date={ORDER_DATE}/shopify_orders_{ORDER_DATE}.csv"
+
+logger.info(f'Writing to {S3_PREFIX_PATH}')
+
+
+with io.StringIO() as csv_buffer:
+    shopify_line_item_df.to_csv(csv_buffer, index=False)
+
+    response = s3_client.put_object(
+        Bucket=BUCKET, 
+        Key=S3_PREFIX_PATH, 
+        Body=csv_buffer.getvalue()
+    )
+
+    status = response['ResponseMetadata']['HTTPStatusCode']
+
+    if status == 200:
+        logger.info(f"Successful S3 put_object response for PUT ({S3_PREFIX_PATH}). Status - {status}")
+    else:
+        logger.error(f"Unsuccessful S3 put_object response for PUT ({S3_PREFIX_PATH}. Status - {status}")
+
