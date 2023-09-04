@@ -35,12 +35,6 @@ jobs:
         run: python prymal/data_pipelines/shopify/shopify_extraction.py 
         
 
-      - name: Transform data
-        run: python transform.py
-
-      - name: Load data
-        run: python load.py
-
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
