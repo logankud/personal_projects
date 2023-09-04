@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r prymal/data_pipelines/shopify/order_data/requirements.txt
+          pip install -r prymal/data_pipelines/shopify/requirements.txt
     
       - name: Extract Shopify Orders & Line Items
         env: 
@@ -32,7 +32,7 @@ jobs:
           AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
           AWS_ACCOUNT_ID:  ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_USER_ARN:  ${{ secrets.AWS_USER_ARN }}
-        run: python prymal/data_pipelines/shopify/shopify_extraction.py 
+        run: python prymal/data_pipelines/shopify/order_data/shopify_extraction.py 
 
       - name: Run Shopify Glue Crawlers
         env: 
