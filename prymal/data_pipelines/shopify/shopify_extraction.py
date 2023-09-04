@@ -139,10 +139,7 @@ while has_next_page == True:
 
   print(orders_df['created_at'])
 
-  # orders_df['order_date'] = pd.to_datetime(
-  #   orders_df['created_at'], errors='coerce',format='%Y-%m-%dT%H:%M:%S%z').strftime('%Y-%m-%d')
-
-  orders_df['order_date'] = pd.to_datetime(orders_df['created_at'])
+  orders_df['order_date'] = pd.to_datetime(orders_df['created_at']).strftime('%Y-%m-%d')
 
   shopify_orders_df = pd.concat([shopify_orders_df, orders_df])
 
@@ -283,7 +280,7 @@ logger.info(f'{len(shopify_line_item_df)} rows in shopify_line_item_df')
 ORDER_DATE = pd.to_datetime(START_DATE).strftime('%Y-%m-%d')
 
 # Configure S3 Prefix
-S3_PREFIX_PATH = f"shopify/line_items/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_orders_{ORDER_DATE}.csv"
+S3_PREFIX_PATH = f"shopify/line_items/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_line_items_{ORDER_DATE}.csv"
 
 logger.info(f'Writing to {S3_PREFIX_PATH}')
 
