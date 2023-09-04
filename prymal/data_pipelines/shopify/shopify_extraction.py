@@ -139,7 +139,7 @@ while has_next_page == True:
 
   print(orders_df['created_at'])
 
-  orders_df['order_date'] = pd.to_datetime(orders_df['created_at']).strftime('%Y-%m-%d')
+  orders_df['order_date'] = pd.to_datetime(orders_df['created_at']).dt.strftime('%Y-%m-%d')
 
   shopify_orders_df = pd.concat([shopify_orders_df, orders_df])
 
@@ -159,7 +159,7 @@ while has_next_page == True:
     line_items['created_at'] = orders.iloc[i]['created_at']
 
     line_items['order_date'] = pd.to_datetime(
-      line_items['created_at']).strftime('%Y-%m-%d')
+      line_items['created_at']).dt.strftime('%Y-%m-%d')
 
     line_items.columns = [
       'line_item_name', 'price', 'quantity', 'sku', 'title', 'variant_title',
