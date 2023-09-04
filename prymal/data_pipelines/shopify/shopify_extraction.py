@@ -19,6 +19,8 @@ import io
 # Variables
 # -------------------------------------
 
+REGION = 'us-east-1'
+
 start_time = datetime.datetime.now()
 logger.info(f'Start time: {start_time}')
 
@@ -44,7 +46,10 @@ def check_path_for_objects(bucket: str, s3_prefix:str):
   logger.info(f'Checking for existing data in {bucket}/{s3_prefix}')
 
   # Create s3 client
-  s3_client = boto3.client('s3')
+  s3_client = boto3.client('s3', 
+                          region_name = REGION,
+                          aws_access_key_id=AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
   # List objects in s3_prefix
   result = s3_client.list_objects(Bucket=bucket, Prefix=s3_prefix )
@@ -69,7 +74,10 @@ def delete_s3_prefix_data(bucket:str, s3_prefix:str):
   logger.info(f'Deleting existing data from {bucket}/{s3_prefix}')
 
   # Create an S3 client
-  s3_client = boto3.client('s3')
+  s3_client = boto3.client('s3', 
+                          region_name = REGION,
+                          aws_access_key_id=AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
   # Use list_objects_v2 to list all objects within the specified prefix
   objects_to_delete = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix)
@@ -275,7 +283,7 @@ AWS_SECRET_ACCESS_KEY=os.environ['AWS_ACCESS_SECRET']
 
 # Create s3 client
 s3_client = boto3.client('s3', 
-                          region_name = 'us-east-1',
+                          region_name = REGION,
                           aws_access_key_id=AWS_ACCESS_KEY_ID,
                           aws_secret_access_key=AWS_SECRET_ACCESS_KEY
                           )
