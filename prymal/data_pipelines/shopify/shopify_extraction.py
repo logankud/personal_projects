@@ -32,6 +32,63 @@ END_DATE = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y-%
 
 SHOPIFY_URL = f'https://{SHOPIFY_API_KEY}:{SHOPIFY_API_PASSWORD}@prymal-coffee-creamer.myshopify.com/admin/api/{API_VERSION}'
 
+# -------------------------------------
+# Functions
+# -------------------------------------
+
+# Check S3 Path for Existing Data
+# -----------
+
+def check_path_for_objects(bucket: str, s3_prefix:str):
+
+  logger.info(f'Checking for existing data in {bucket}/{s3_prefix}')
+
+  # Create s3 client
+  s3_client = boto3.client('s3')
+
+  # List objects in s3_prefix
+  result = s3_client.list_objects(Bucket=bucket, Prefix=s3_prefix )
+
+  # Instantiate objects_exist
+  objects_exist=False
+
+  # Set objects_exist to true if objects are in prefix
+  if 'Contents' in result:
+      objects_exist=True
+
+      logger.info('Data already exists!')
+
+  return objects_exist
+
+# Delete Existing Data from S3 Path
+# -----------
+
+def delete_s3_prefix_data(bucket:str, s3_prefix:str):
+
+
+  logger.info(f'Deleting existing data from {bucket}/{s3_prefix}')
+
+  # Create an S3 client
+  s3_client = boto3.client('s3')
+
+  # Use list_objects_v2 to list all objects within the specified prefix
+  objects_to_delete = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix)
+
+  # Extract the list of object keys
+  keys_to_delete = [obj['Key'] for obj in objects_to_delete.get('Contents', [])]
+
+  # Check if there are objects to delete
+  if keys_to_delete:
+      # Delete the objects using 'delete_objects'
+      response = s3_client.delete_objects(
+          Bucket=bucket,
+          Delete={'Objects': [{'Key': key} for key in keys_to_delete]}
+      )
+      logger.info(f"Deleted {len(keys_to_delete)} objects")
+  else:
+      logger.info("No objects to delete")
+
+
 # --------------------------------------------------------------------------------------
 
 # Set dates to pull data for
@@ -113,8 +170,6 @@ while has_next_page == True:
   except requests.exceptions.RequestException as err:
     print("Error:", err)
 
-  # print(r.headers['link'])
-  # response_json = r.json()
 
   # --------------------------- ORDER DF ----------------------------
 
@@ -247,6 +302,16 @@ ORDER_DATE_D = pd.to_datetime(START_DATE).strftime('%d')
 # Configure S3 Prefix
 S3_PREFIX_PATH = f"shopify/orders/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_orders_{ORDER_DATE}.csv"
 
+# Check if data already exists for this partition
+data_already_exists = check_path_for_objects(bucket=BUCKET, s3_prefix=S3_PREFIX_PATH)
+
+# If data already exists, delete it .. 
+if data_already_exists == True:
+   
+   # Delete data 
+   delete_s3_prefix_data(bucket=BUCKET, s3_prefix=S3_PREFIX_PATH)
+
+
 logger.info(f'Writing to {S3_PREFIX_PATH}')
 
 
@@ -281,6 +346,15 @@ ORDER_DATE = pd.to_datetime(START_DATE).strftime('%Y-%m-%d')
 
 # Configure S3 Prefix
 S3_PREFIX_PATH = f"shopify/line_items/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_line_items_{ORDER_DATE}.csv"
+
+# Check if data already exists for this partition
+data_already_exists = check_path_for_objects(bucket=BUCKET, s3_prefix=S3_PREFIX_PATH)
+
+# If data already exists, delete it .. 
+if data_already_exists == True:
+   
+   # Delete data 
+   delete_s3_prefix_data(bucket=BUCKET, s3_prefix=S3_PREFIX_PATH)
 
 logger.info(f'Writing to {S3_PREFIX_PATH}')
 
