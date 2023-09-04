@@ -34,7 +34,7 @@ jobs:
           AWS_USER_ARN:  ${{ secrets.AWS_USER_ARN }}
         run: python prymal/data_pipelines/shopify/shopify_extraction.py 
 
-        - name: Run Shopify Glue Crawlers
+      - name: Run Shopify Glue Crawlers
         env: 
           AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
           AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
