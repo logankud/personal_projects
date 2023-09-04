@@ -33,6 +33,12 @@ jobs:
           AWS_ACCOUNT_ID:  ${{ secrets.AWS_ACCOUNT_ID }}
           AWS_USER_ARN:  ${{ secrets.AWS_USER_ARN }}
         run: python prymal/data_pipelines/shopify/shopify_extraction.py 
+
+        - name: Run Shopify Glue Crawlers
+        env: 
+          AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
+        run: python prymal/data_pipelines/shopify/shopify_crawlers.py 
         
 
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
