@@ -241,9 +241,14 @@ logger.info(f'{len(shopify_orders_df)} rows in shopify_orders_df')
 
 
 ORDER_DATE = pd.to_datetime(START_DATE).strftime('%Y-%m-%d')
+ORDER_DATE_Y = pd.to_datetime(START_DATE).strftime('%Y')
+ORDER_DATE_M = pd.to_datetime(START_DATE).strftime('%m')
+ORDER_DATE_D = pd.to_datetime(START_DATE).strftime('%d')
+
+
 
 # Configure S3 Prefix
-S3_PREFIX_PATH = f"shopify/orders/order_date={ORDER_DATE}/shopify_orders_{ORDER_DATE}.csv"
+S3_PREFIX_PATH = f"shopify/orders/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_orders_{ORDER_DATE}.csv"
 
 logger.info(f'Writing to {S3_PREFIX_PATH}')
 
@@ -278,7 +283,7 @@ logger.info(f'{len(shopify_line_item_df)} rows in shopify_line_item_df')
 ORDER_DATE = pd.to_datetime(START_DATE).strftime('%Y-%m-%d')
 
 # Configure S3 Prefix
-S3_PREFIX_PATH = f"shopify/line_items/order_date={ORDER_DATE}/shopify_orders_{ORDER_DATE}.csv"
+S3_PREFIX_PATH = f"shopify/line_items/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_orders_{ORDER_DATE}.csv"
 
 logger.info(f'Writing to {S3_PREFIX_PATH}')
 
