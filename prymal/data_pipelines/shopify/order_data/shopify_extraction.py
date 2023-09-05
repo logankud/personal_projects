@@ -52,7 +52,7 @@ def check_path_for_objects(bucket: str, s3_prefix:str):
                           aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
   # List objects in s3_prefix
-  result = s3_client.list_objects(Bucket=bucket, Prefix=s3_prefix )
+  result = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix )
 
   # Instantiate objects_exist
   objects_exist=False
