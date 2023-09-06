@@ -1,4 +1,4 @@
-name: Prymal Shopify Extraction
+name: Prymal Shopify Extraction Backfill
 run-name: ${{ github.actor }} - Shopify Extraction Backfill
 on: 
   push:
