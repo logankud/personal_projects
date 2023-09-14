@@ -223,7 +223,7 @@ while has_next_page == True:
     line_items['created_at'] = orders.iloc[i]['created_at']
 
     line_items['order_date'] = pd.to_datetime(
-      line_items['created_at'],format='%Y-%m-%dT%H:%M:%S-07:00').dt.strftime('%Y-%m-%d')
+      line_items['created_at'],format='%Y-%m-%dT%H:%M:%S-07:00'.str.slice(0, 19),format='%Y-%m-%dT%H:%M:%S').dt.strftime('%Y-%m-%d')
 
     line_items.columns = [
       'line_item_name', 'price', 'quantity', 'sku', 'title', 'variant_title',
