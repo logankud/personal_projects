@@ -202,7 +202,8 @@ while has_next_page == True:
 
   print(orders_df['created_at'])
 
-  orders_df['order_date'] = pd.to_datetime(orders_df['created_at'],format='%Y-%m-%dT%H:%M:%S-07:00').dt.strftime('%Y-%m-%d')
+  # Use created_at to create a formatted date column (yyyy-mm-dd)
+  orders_df['order_date'] = pd.to_datetime(orders_df['created_at'].str.slice(0, 19),format='%Y-%m-%dT%H:%M:%S').dt.strftime('%Y-%m-%d')
 
   shopify_orders_df = pd.concat([shopify_orders_df, orders_df])
 
