@@ -181,29 +181,29 @@ while has_next_page == True:
         break
       
     except requests.exceptions.HTTPError as errh:
-      print("HTTP Error:", errh)
+      logger.info("HTTP Error:", errh)
       time.sleep(30)
       continue
 
     except requests.exceptions.ConnectionError as errc:
-      print("Error Connecting:", errc)
+      logger.info("Error Connecting:", errc)
       time.sleep(30)
       continue 
 
     except requests.exceptions.Timeout as errt:
-      print("Timeout Error:", errt)
+      logger.info("Timeout Error:", errt)
       time.sleep(30)
       continue
 
     except requests.exceptions.RequestException as err:
-      print("Error:", err)
+      logger.info("Error:", err)
       time.sleep(30)
       continue
 
     if retry < max_retries - 1:
-       print('Retrying api call...')
+       logger.info('Retrying api call...')
     else:
-       print(f'Retried {max_retries} times without getting a 200 response.')
+       logger.info(f'Retried {max_retries} times without getting a 200 response.')
 
 
 
