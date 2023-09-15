@@ -14,6 +14,7 @@ import loguru
 from loguru import logger
 import re
 import io
+import time
 
 # -------------------------------------
 # Variables
@@ -161,22 +162,49 @@ shopify_orders_df = pd.DataFrame()
 url = f'https://{SHOPIFY_API_KEY}:{SHOPIFY_API_PASSWORD}@prymal-coffee-creamer.myshopify.com/admin/api/2021-07/orders.json?status=any'
 has_next_page = True
 
+max_retries = 3
+
 while has_next_page == True:
 
-  r = requests.get(url, stream=True, params=payload)
+  time.sleep(2)
 
-  try:
-    r.raise_for_status()  # Check for any HTTP errors
-    response_json = r.json()
-    # Continue processing the response data
-  except requests.exceptions.HTTPError as errh:
-    print("HTTP Error:", errh)
-  except requests.exceptions.ConnectionError as errc:
-    print("Error Connecting:", errc)
-  except requests.exceptions.Timeout as errt:
-    print("Timeout Error:", errt)
-  except requests.exceptions.RequestException as err:
-    print("Error:", err)
+  for retry in range(max_retries):
+
+    try:
+ 
+      r = requests.get(url, stream=True, params=payload)
+
+      r.raise_for_status()  # Check for any HTTP errors
+
+      if r.status_code == 200:
+        response_json = r.json()
+        break
+      
+    except requests.exceptions.HTTPError as errh:
+      print("HTTP Error:", errh)
+      time.sleep(30)
+      continue
+
+    except requests.exceptions.ConnectionError as errc:
+      print("Error Connecting:", errc)
+      time.sleep(30)
+      continue 
+
+    except requests.exceptions.Timeout as errt:
+      print("Timeout Error:", errt)
+      time.sleep(30)
+      continue
+
+    except requests.exceptions.RequestException as err:
+      print("Error:", err)
+      time.sleep(30)
+      continue
+
+    if retry < max_retries - 1:
+       print('Retrying api call...')
+    else:
+       print(f'Retried {max_retries} times without getting a 200 response.')
+
 
 
   # --------------------------- ORDER DF ----------------------------
