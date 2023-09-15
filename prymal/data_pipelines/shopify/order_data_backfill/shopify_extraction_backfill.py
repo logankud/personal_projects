@@ -228,7 +228,7 @@ while has_next_page == True:
     'total_shipping_fee', 'total_price'
   ]
 
-  print(orders_df['created_at'])
+  logger.info(f"Min order date: {orders_df['created_at'].min()}")
 
   # Use created_at to create a formatted date column (yyyy-mm-dd)
   orders_df['order_date'] = pd.to_datetime(orders_df['created_at'].str.slice(0, 19),format='%Y-%m-%dT%H:%M:%S').dt.strftime('%Y-%m-%d')
