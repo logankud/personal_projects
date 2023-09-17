@@ -1,5 +1,5 @@
-name: Prymal Analytics - Shopify Qty Sold by SKU Daily
-run-name: ${{ github.actor }} - Shopify Qty Sold by SKU Daily 
+name: Transformation - Shopify Qty Sold by SKU Daily
+run-name: ${{ github.actor }} - Transformation - Shopify Qty Sold by SKU Daily 
 on: 
   push:
     paths:
