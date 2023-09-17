@@ -1,6 +1,6 @@
 import boto3
 import base64
-from botocore.exceptions import ClientError
+from botocore.exceptions import BotoCoreError, ClientError, NoCredentialsError, PartialCredentialsError
 import json
 import requests
 import pandas as pd
@@ -45,27 +45,54 @@ SHOPIFY_URL = f'https://{SHOPIFY_API_KEY}:{SHOPIFY_API_PASSWORD}@prymal-coffee-c
 
 def check_path_for_objects(bucket: str, s3_prefix:str):
 
-  logger.info(f'Checking for existing data in {bucket}/{s3_prefix}')
+    logger.info(f'Checking for existing data in {bucket}/{s3_prefix}')
 
-  # Create s3 client
-  s3_client = boto3.client('s3', 
-                          region_name = REGION,
-                          aws_access_key_id=AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    try:
 
-  # List objects in s3_prefix
-  result = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix )
+        # Create s3 client
+        s3_client = boto3.client('s3', 
+                                region_name = REGION,
+                                aws_access_key_id=AWS_ACCESS_KEY_ID,
+                                aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
-  # Instantiate objects_exist
-  objects_exist=False
+        # List objects in s3_prefix
+        result = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix )
 
-  # Set objects_exist to true if objects are in prefix
-  if 'Contents' in result:
-      objects_exist=True
+        # Instantiate objects_exist
+        objects_exist=False
 
-      logger.info('Data already exists!')
+        # Set objects_exist to true if objects are in prefix
+        if 'Contents' in result:
+            objects_exist=True
 
-  return objects_exist
+            logger.info('Data already exists!')
+
+        return objects_exist
+
+    except NoCredentialsError:
+                # Handle missing AWS credentials
+            logger.error("No AWS credentials found. Please configure your credentials.")
+
+    except PartialCredentialsError as e:
+        # Handle incomplete AWS credentials
+        logger.error(f"Partial AWS credentials error: {e}")
+
+    except ClientError as e:
+        # Handle S3-specific errors
+        if e.response['Error']['Code'] == 'NoSuchBucket':
+            logger.error(f"The specified bucket does not exist: {e}")
+        elif e.response['Error']['Code'] == 'NoSuchKey':
+            logger.error(f"The specified object key does not exist: {e}")
+        else:
+            logger.error(f"AWS S3 Error: {e}")
+
+    except BotoCoreError as e:
+        # Handle general BotoCore errors (e.g., network issues)
+        logger.error(f"BotoCore Error: {e}")
+
+    except Exception as e:
+        # Handle other exceptions
+        logger.error(f"Other Exception: {e}")
 
 # Delete Existing Data from S3 Path
 # -----------
@@ -73,30 +100,57 @@ def check_path_for_objects(bucket: str, s3_prefix:str):
 def delete_s3_prefix_data(bucket:str, s3_prefix:str):
 
 
-  logger.info(f'Deleting existing data from {bucket}/{s3_prefix}')
+    logger.info(f'Deleting existing data from {bucket}/{s3_prefix}')
 
-  # Create an S3 client
-  s3_client = boto3.client('s3', 
-                          region_name = REGION,
-                          aws_access_key_id=AWS_ACCESS_KEY_ID,
-                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    # Create an S3 client
+    s3_client = boto3.client('s3', 
+                            region_name = REGION,
+                            aws_access_key_id=AWS_ACCESS_KEY_ID,
+                            aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
-  # Use list_objects_v2 to list all objects within the specified prefix
-  objects_to_delete = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix)
+    try:
+                                                                                
+        # Use list_objects_v2 to list all objects within the specified prefix
+        objects_to_delete = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix)
 
-  # Extract the list of object keys
-  keys_to_delete = [obj['Key'] for obj in objects_to_delete.get('Contents', [])]
+        # Extract the list of object keys
+        keys_to_delete = [obj['Key'] for obj in objects_to_delete.get('Contents', [])]
 
-  # Check if there are objects to delete
-  if keys_to_delete:
-      # Delete the objects using 'delete_objects'
-      response = s3_client.delete_objects(
-          Bucket=bucket,
-          Delete={'Objects': [{'Key': key} for key in keys_to_delete]}
-      )
-      logger.info(f"Deleted {len(keys_to_delete)} objects")
-  else:
-      logger.info("No objects to delete")
+        # Check if there are objects to delete
+        if keys_to_delete:
+            # Delete the objects using 'delete_objects'
+            response = s3_client.delete_objects(
+                Bucket=bucket,
+                Delete={'Objects': [{'Key': key} for key in keys_to_delete]}
+            )
+            logger.info(f"Deleted {len(keys_to_delete)} objects")
+        else:
+            logger.info("No objects to delete")
+
+    except NoCredentialsError:
+                # Handle missing AWS credentials
+            logger.error("No AWS credentials found. Please configure your credentials.")
+
+    except PartialCredentialsError as e:
+        # Handle incomplete AWS credentials
+        logger.error(f"Partial AWS credentials error: {e}")
+
+    except ClientError as e:
+        # Handle S3-specific errors
+        if e.response['Error']['Code'] == 'NoSuchBucket':
+            logger.error(f"The specified bucket does not exist: {e}")
+        elif e.response['Error']['Code'] == 'NoSuchKey':
+            logger.error(f"The specified object key does not exist: {e}")
+        else:
+            logger.error(f"AWS S3 Error: {e}")
+
+    except BotoCoreError as e:
+        # Handle general BotoCore errors (e.g., network issues)
+        logger.error(f"BotoCore Error: {e}")
+
+    except Exception as e:
+        # Handle other exceptions
+        logger.error(f"Other Exception: {e}")
 
 
 # --------------------------------------------------------------------------------------
