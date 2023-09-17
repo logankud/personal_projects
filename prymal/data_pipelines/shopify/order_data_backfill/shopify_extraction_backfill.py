@@ -335,10 +335,10 @@ for date in pd.to_datetime(shopify_orders_df['order_date']).unique():
   ORDER_DATE_M = pd.to_datetime(date).strftime('%m')
   ORDER_DATE_D = pd.to_datetime(date).strftime('%d')
 
-  df = shopify_orders_df.loc[shopify_orders_df['order_date']==date].copy()
+  df = shopify_orders_df.loc[shopify_orders_df['order_date']==ORDER_DATE].copy()
 
-  logger.info(f'Record count for {date} - {len(df)}')
-  
+  logger.info(f'Record count for shopify_orders {ORDER_DATE} - {len(df)}')
+
   # Configure S3 Prefix
   S3_PREFIX_PATH = f"shopify/orders/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_orders_{ORDER_DATE}.csv"
 
@@ -389,7 +389,10 @@ for date in pd.to_datetime(shopify_line_item_df['order_date']).unique():
   ORDER_DATE_M = pd.to_datetime(date).strftime('%m')
   ORDER_DATE_D = pd.to_datetime(date).strftime('%d')
 
-  df = shopify_orders_df.loc[shopify_orders_df['order_date']==date].copy()
+  df = shopify_orders_df.loc[shopify_orders_df['order_date']==ORDER_DATE].copy()
+
+  logger.info(f'Record count for shopify_line_items {ORDER_DATE} - {len(df)}')
+
 
   # Configure S3 Prefix
   S3_PREFIX_PATH = f"shopify/line_items/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_line_items_{ORDER_DATE}.csv"
