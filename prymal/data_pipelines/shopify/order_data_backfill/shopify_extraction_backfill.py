@@ -391,7 +391,7 @@ for date in pd.to_datetime(shopify_line_item_df['order_date']).unique():
   ORDER_DATE_M = pd.to_datetime(date).strftime('%m')
   ORDER_DATE_D = pd.to_datetime(date).strftime('%d')
 
-  df = shopify_orders_df.loc[shopify_orders_df['order_date']==ORDER_DATE].copy()
+  df = shopify_line_item_df.loc[shopify_line_item_df['order_date']==ORDER_DATE].copy()
 
   logger.info(f'Record count for shopify_line_items {ORDER_DATE} - {len(df)}')
 
