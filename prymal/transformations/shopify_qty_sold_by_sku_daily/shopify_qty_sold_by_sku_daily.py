@@ -375,7 +375,7 @@ QUERY_FORMATTED = QUERY_STR.replace('{PARTITION_YEAR}',
                                     f"'{YESTERDAY_Y}'").replace('{PARTITION_MONTH}',
                                                                 f"'{YESTERDAY_M}'").replace('{PARTITION_DAY}',
                                                                                             f"'{YESTERDAY_D}'")
-
+# Log Athena query 
 logger.info(QUERY_FORMATTED)
 
 # Run Athena query
