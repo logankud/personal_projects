@@ -31,7 +31,7 @@ YESTERDAY_M = pd.to_datetime(YESTERDAY).strftime('%m')
 YESTERDAY_D = pd.to_datetime(YESTERDAY).strftime('%d')
 
 # Transformation SQL Query as code (path)
-QUERY_PATH = 'prymal/transformations/shopify_qty_sold_by_sku_daily\shopify_qty_sold_by_sku_daily.sql'
+QUERY_PATH = 'prymal/transformations/shopify_qty_sold_by_sku_daily/shopify_qty_sold_by_sku_daily.sql'
 
 # Transformation SQL Query as code (local path)
 # file_path = r"C:\Users\logan\Documents\OneDrive BackUp\My Personal Stuff\Github Repos\personal_projects\prymal\transformations\shopify_qty_sold_by_sku_daily\shopify_qty_sold_by_sku_daily.sql"
