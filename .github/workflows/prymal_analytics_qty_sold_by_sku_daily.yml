@@ -16,7 +16,7 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Set up Python env
+      - name: Set up Python environment
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
