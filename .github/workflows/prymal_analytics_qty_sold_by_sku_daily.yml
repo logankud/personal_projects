@@ -7,7 +7,7 @@ on:
   schedule:
     - cron: '0 6 * * *'  # Runs at 6 AM every day
 jobs:
-  shopify_etl:
+  shopify_qty_sold_by_sku_daily:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repo code
