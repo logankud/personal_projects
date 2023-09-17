@@ -179,7 +179,7 @@ def write_df_to_s3(df:pd.DataFrame,bucket:str, s3_prefix:str):
             else:
                 logger.error(f"Unsuccessful S3 put_object response for PUT ({S3_PREFIX_PATH}. Status - {status}")
 
-            return status
+            return response
 
         except NoCredentialsError:
              # Handle missing AWS credentials
