@@ -129,9 +129,9 @@ end_date = pacific.localize(
   datetime.datetime(int(y_end), int(m_end), int(d_end), 1, 0,
                     0))  # datetime.date(%Y,%m,%d,%H,%M,%S)
 
-print('backfill start date: ', START_DATE)
-print('backfill end date: ', END_DATE)
-print('shopify api data being pulled from: ', sdate, ' through ', edate)
+logger.info('backfill start date: ', START_DATE)
+logger.info('backfill end date: ', END_DATE)
+logger.info('shopify api data being pulled from: ', sdate, ' through ', edate)
 
 # Create temp lists to hold the values in the json file
 line_items = []
@@ -284,14 +284,14 @@ while has_next_page == True:
   #Reset Payload
   payload = {'limit': 250}
 
-  print(orders_df['order_date'].min(), orders_df['order_date'].max())
-  print(f'Has next page: {has_next_page}')
-  print(f'Total orders: {len(shopify_orders_df)}')
-  print(
+  logger.info(orders_df['order_date'].min(), orders_df['order_date'].max())
+  logger.info(f'Has next page: {has_next_page}')
+  logger.info(f'Total orders: {len(shopify_orders_df)}')
+  logger.info(
     f'Orders date range: {shopify_orders_df["order_date"].min()} to {shopify_orders_df["order_date"].max()}'
   )
-  print(f'Total line items: {len(shopify_line_item_df)}')
-  print(
+  logger.info(f'Total line items: {len(shopify_line_item_df)}')
+  logger.info(
     f'Line items date range: {shopify_line_item_df["order_date"].min()} to {shopify_line_item_df["order_date"].max()}'
   )
 
@@ -337,6 +337,8 @@ for date in pd.to_datetime(shopify_orders_df['order_date']).unique():
 
   df = shopify_orders_df.loc[shopify_orders_df['order_date']==date].copy()
 
+  logger.info(f'Record count for {date} - {len(df)}')
+  
   # Configure S3 Prefix
   S3_PREFIX_PATH = f"shopify/orders/year={ORDER_DATE_Y}/month={ORDER_DATE_M}/day={ORDER_DATE_D}/shopify_orders_{ORDER_DATE}.csv"
 
