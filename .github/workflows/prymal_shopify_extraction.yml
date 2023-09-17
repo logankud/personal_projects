@@ -2,6 +2,8 @@ name: Prymal Shopify Extraction
 run-name: ${{ github.actor }} - Shopify Extraction 
 on: 
   push:
+    paths:
+      - '**/data_pipelines/shopify/order_data/**'
   schedule:
     - cron: '0 6 * * *'  # Runs at 6 AM every day
 jobs:

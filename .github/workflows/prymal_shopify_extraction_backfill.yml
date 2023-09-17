@@ -2,6 +2,8 @@ name: Prymal Shopify Extraction Backfill
 run-name: ${{ github.actor }} - Shopify Extraction Backfill
 on: 
   push:
+    paths:
+      - '**/data_pipelines/shopify/order_data_backfill/**'
 jobs:
   shopify_etl_backfill:
     runs-on: ubuntu-latest
