@@ -1,10 +1,7 @@
 
 import boto3
-import base64
 from botocore.exceptions import BotoCoreError, ClientError, NoCredentialsError, PartialCredentialsError, ParamValidationError, WaiterError
 import pandas as pd
-import datetime
-from datetime import datetime, timedelta
 import os
 import loguru
 from loguru import logger
