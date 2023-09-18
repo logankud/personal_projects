@@ -14,15 +14,12 @@ import time
 # -------------------------------------
 
 REGION = 'us-east-1'
-DATABASE = 'prymal'
+DATABASE = 'prymal-analytics'
 CRAWLER_NAME = 'shopify_qty_sold_by_sku_daily'
 
 
 # Transformation SQL Query as code (path)
 QUERY_PATH = 'prymal/create_table/shopify_qty_sold_by_sku_daily/create_shopify_qty_sold_by_sku_daily.sql'
-
-# Transformation SQL Query as code (local path)
-# file_path = r"C:\Users\logan\Documents\OneDrive BackUp\My Personal Stuff\Github Repos\personal_projects\prymal\transformations\shopify_qty_sold_by_sku_daily\shopify_qty_sold_by_sku_daily.sql"
 
 # AWS Credentials
 AWS_ACCESS_KEY_ID=os.environ['AWS_ACCESS_KEY']
@@ -287,7 +284,6 @@ def run_athena_query(query:str, database: str):
 # ============================================================================
 # EXECUTE CODE
 # ============================================================================
-
 
 # Read sql from .sql to string
 QUERY_STR = read_query_to_string(path=QUERY_PATH)
