@@ -1,14 +1,15 @@
-CREATE EXTERNAL TABLE IF NOT EXISTS "prymal-analytics"."shopify_qty_sold_by_sku_daily"
-(
- order_date DATE "Date that the sku was sold"
-, sku VARCHAR "SKU (from Shopify) being sold"
-, title VARCHAR "Name of product from Shopify"
-, qty_sold INT "Total quantity of sku sold on order_date"
-, sku_name VARCHAR "Mapped name of the sku (from Prymal's skus_shopify table)"
+CREATE EXTERNAL TABLE IF NOT EXISTS shopify_qty_sold_by_sku_daily(
+ order_date DATE
+, sku STRING 
+, title STRING
+, qty_sold INT
+, sku_name STRING
+
 )
- PARTITIONED BY 
+PARTITIONED BY 
 (
-partition_date DATE "Order date that the sku was sold" 
+partition_date DATE 
 )
- STORED AS CSV
- LOCATION 's3://prymal-analytics/shopify/shopify_qty_sold_by_sku_daily/'
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+LOCATION 's3://prymal-analytics/shopify/shopify_qty_sold_by_sku_daily/'
