@@ -31,6 +31,7 @@ jobs:
           AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
           AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
           AWS_ACCOUNT_ID:  ${{ secrets.AWS_ACCOUNT_ID }}
+          S3_PRYMAL_ANALYTICS: ${{ secrets.S3_PRYMAL_ANALYTICS}}
         run: python prymal/transformations/shopify_qty_sold_by_sku_daily/shopify_qty_sold_by_sku_daily.py 
 
       - run: echo "Job status - ${{ job.status }}."
