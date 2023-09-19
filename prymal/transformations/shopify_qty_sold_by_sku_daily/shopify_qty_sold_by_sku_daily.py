@@ -11,7 +11,6 @@ from loguru import logger
 import io
 import time
 
-
 # -------------------------------------
 # Variables
 # -------------------------------------
@@ -373,4 +372,4 @@ QUERY_FORMATTED = QUERY_STR.replace('{PARTITION_YEAR}',
 logger.info(QUERY_FORMATTED)
 
 # Run Athena query
-response = run_athena_query(query=QUERY_FORMATTED, database=DATABASE)
+response = run_athena_query(query=QUERY_FORMATTED, database=DATABASE) 
