@@ -20,9 +20,6 @@ REGION = 'us-east-1'
 DATABASE = 'prymal'
 CRAWLER_NAME = 'shopify_qty_sold_by_sku_daily'
 
-# S3_PREFIX_TO_WRITE_RESULTS_TO = 'shopify/qty_sold_by_sku_daily/'
-# FILE_NAME_PREFIX = 'skus_shopify_'
-
 # Calculate today & yesterday's date using datetime
 CURRENT_DATE = pd.to_datetime('today').strftime('%Y-%m-%d')
 YESTERDAY = pd.to_datetime(pd.to_datetime(CURRENT_DATE) - timedelta(days=1)).strftime('%Y-%m-%d')
@@ -32,9 +29,6 @@ YESTERDAY_D = pd.to_datetime(YESTERDAY).strftime('%d')
 
 # Transformation SQL Query as code (path)
 QUERY_PATH = 'prymal/transformations/shopify_qty_sold_by_sku_daily/shopify_qty_sold_by_sku_daily.sql'
-
-# Transformation SQL Query as code (local path)
-# file_path = r"C:\Users\logan\Documents\OneDrive BackUp\My Personal Stuff\Github Repos\personal_projects\prymal\transformations\shopify_qty_sold_by_sku_daily\shopify_qty_sold_by_sku_daily.sql"
 
 # AWS Credentials
 AWS_ACCESS_KEY_ID=os.environ['AWS_ACCESS_KEY']
