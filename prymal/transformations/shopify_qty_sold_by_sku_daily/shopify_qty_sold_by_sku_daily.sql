@@ -1,14 +1,19 @@
+
+INSERT INTO shopify_qty_sold_by_sku_daily
+
 with line_items as (
 
-SELECT order_date
+SELECT CAST(order_date AS DATE) as order_date
 , sku
 , title
 , SUM(quantity) as qty_sold
 FROM "prymal"."shopify_line_items"
-WHERE year = {PARTITION_YEAR} 
-AND month = {PARTITION_MONTH}
-AND day = {PARTITION_DAY}
-GROUP BY sku, title
+WHERE year = '2023' 
+AND month = '09'
+AND day = '17'
+GROUP BY order_date
+,sku
+, title
 
 )
 
@@ -26,7 +31,11 @@ WHERE sku.load_date = (SELECT MAX(load_date) FROM "prymal"."skus_shopify")   -- 
 
 )
 
-INSERT INTO "prymal-analytics"."shopify_qty_sold_by_sku_daily"
 
-SELECT *
+SELECT order_date
+sku_name
+, SUM(qty_sold) as qty_sold
+, order_date AS partition_date
 FROM line_items_mapped
+GROUP BY order_date
+, sku_name
