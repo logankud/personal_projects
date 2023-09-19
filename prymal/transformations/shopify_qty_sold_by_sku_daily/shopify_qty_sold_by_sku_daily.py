@@ -316,12 +316,23 @@ def run_athena_query(query:str, database: str):
         query_execution_id = response['QueryExecutionId']
         logger.info(f"Query submitted. Execution ID: {query_execution_id}")
 
-        # Optionally, you can wait for the query to complete and check the results
-        athena_client.get_waiter('query_execution_completed').wait(
-            QueryExecutionId=query_execution_id
-        )
 
-        logger.info("Query execution completed successfully.")
+        state = 'RUNNING'
+
+        while (state in ['RUNNING', 'QUEUED']):
+            response = athena_client.get_query_execution(QueryExecutionId = query_execution_id)
+            logger.info(f'Query is in {state} state..')
+            if 'QueryExecution' in response and 'Status' in response['QueryExecution'] and 'State' in response['QueryExecution']['Status']:
+                # Get currentstate
+                state = response['QueryExecution']['Status']['State']
+
+                if state == 'FAILED':
+                    logger.error('Query Failed!')
+                    return False
+                elif state == 'SUCCEEDED':
+                    logger.info('Query Succeeded!')
+                    return True
+
     except ParamValidationError as e:
         logger.error(f"Validation Error (potential SQL query issue): {e}")
         # Handle invalid parameters in the request, such as an invalid SQL query
@@ -372,4 +383,11 @@ QUERY_FORMATTED = QUERY_STR.replace('{PARTITION_YEAR}',
 logger.info(QUERY_FORMATTED)
 
 # Run Athena query
-response = run_athena_query(query=QUERY_FORMATTED, database=DATABASE) 
+query_successful = run_athena_query(query=QUERY_FORMATTED, database=DATABASE) 
+
+if query_successful == True: 
+    # RUN GLUE CRAWLER
+    logger.info('NEED TO RUN GLUE CRAWLER HERE')
+
+else: 
+    logger.info('Athena query did not run successfully.')
