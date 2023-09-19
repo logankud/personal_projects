@@ -18,6 +18,7 @@ line_items_mapped as (
 
 SELECT li.*
 , sku.sku_name
+, DATE(order_date) as partition_date
 FROM line_items li
 LEFT JOIN "prymal"."skus_shopify" sku
 ON li.sku = sku.sku
@@ -26,7 +27,6 @@ WHERE sku.load_date = (SELECT MAX(load_date) FROM "prymal"."skus_shopify")   -- 
 )
 
 INSERT INTO "prymal-analytics"."shopify_qty_sold_by_sku_daily"
-PARTITION (year={PARTITION_YEAR}, month={PARTITION_MONTH}, day={PARTITION_DAY})
 
 SELECT *
 FROM line_items_mapped
