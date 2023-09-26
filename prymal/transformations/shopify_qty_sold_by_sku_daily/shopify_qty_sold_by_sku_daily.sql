@@ -9,9 +9,9 @@ SELECT CAST(order_date AS DATE) as order_date
 , title
 , SUM(quantity) as qty_sold
 FROM "prymal"."shopify_line_items"
-WHERE year = '{PARTITION_YEAR}' 
-AND month = '{PARTITION_MONTH}'
-AND day = '{PARTITION_DAY}'
+WHERE year = {PARTITION_YEAR} 
+AND month = {PARTITION_MONTH}
+AND day = {PARTITION_DAY}
 GROUP BY order_date
 ,sku
 , title
