@@ -1,0 +1,30 @@
+name: Deploy Dash app to Heroku
+
+on:
+  push:
+    branches: '**/dashboards/inventory_management/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: pip install -r prymal/dashboards/requirements.txt
+
+      - name: Build Dash app
+        run: python inventory_management.py build
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.1
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          release_command: 'python app.py run'
