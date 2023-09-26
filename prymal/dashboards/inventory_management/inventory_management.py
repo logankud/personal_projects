@@ -65,7 +65,7 @@ def update_linechart(where_clause):
     WHERE
         {where_clause}
     GROUP BY 
-        order_date
+        order_date 
     """ 
 
     response = athena_client.start_query_execution(
