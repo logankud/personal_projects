@@ -2,7 +2,7 @@ name: Dashboard - Inventory Management (Dash on Heroku)
 
 on:
   push:
-    branches: '**/dashboards/inventory_management/**'
+    branches: '**/prymal/dashboards/inventory_management/**'
 
 jobs:
   build:
