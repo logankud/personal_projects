@@ -33,7 +33,7 @@ WHERE sku.load_date = (SELECT MAX(load_date) FROM "prymal"."skus_shopify")   -- 
 
 
 SELECT order_date
-sku_name
+, sku_name
 , SUM(qty_sold) as qty_sold
 , order_date AS partition_date
 FROM line_items_mapped
