@@ -27,4 +27,4 @@ jobs:
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
           heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          release_command: 'python app.py run'
+          release_command: 'python inventory_management.py run'
