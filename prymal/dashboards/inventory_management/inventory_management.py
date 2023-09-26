@@ -6,9 +6,20 @@ from dash.dependencies import Input, Output
 import boto3
 import pandas as pd
 import plotly.graph_objects as go
+import os
+
+# Transformation SQL Query as code (path)
+QUERY_PATH = 'prymal/transformations/shopify_qty_sold_by_sku_daily/shopify_qty_sold_by_sku_daily.sql'
+
+# AWS Credentials
+AWS_ACCESS_KEY_ID=os.environ['AWS_ACCESS_KEY']
+AWS_SECRET_ACCESS_KEY=os.environ['AWS_ACCESS_SECRET']
 
 # Create a boto3 client for the Athena service.
-athena_client = boto3.client('athena')
+athena_client = boto3.client('athena', 
+                                 region_name='us-east-1',
+                                 aws_access_key_id=AWS_ACCESS_KEY_ID,
+                                 aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
 # Create a dropdown menu with the available values for the WHERE clause.
 dropdown_options = [
@@ -47,19 +58,26 @@ def update_linechart(where_clause):
     # Generate the Athena query.
     query = f"""
     SELECT
-        *
+        order_date
+        , SUM(qty_sold) as qty_sold
     FROM
-        my_database.my_table
+        "prymal-analytics"."shopify_qty_sold_by_sku_daily"
     WHERE
         {where_clause}
+    GROUP BY 
+        order_date
     """
 
-    # Run the Athena query.
     response = athena_client.start_query_execution(
-        QueryString=query,
-        DatabaseName='my_database',
-    )
-
+            QueryString=query,
+            QueryExecutionContext={
+                'Database': 'prymal-analytics'
+            },
+            ResultConfiguration={
+                'OutputLocation': 's3://prymal-ops/athena_query_results/'  # Specify your S3 bucket for query results
+            }
+        )
+    
     # Wait for the query to complete.
     waiter = athena_client.get_waiter('query-execution-succeeded')
     waiter.wait(QueryExecutionId=response['QueryExecutionId'])
