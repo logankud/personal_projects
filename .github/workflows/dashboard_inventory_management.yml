@@ -27,7 +27,7 @@ jobs:
         run: pip install -r prymal/dashboards/requirements.txt
 
       - name: Build Dash app
-        run: python inventory_management.py build
+        run: python inventory_management/inventory_management.py build
 
       - name: Build, Push and Release a Docker container to Heroku. # Your custom step name
         uses: gonuit/heroku-docker-deploy@v1.3.3 # GitHub action name (leave it as it is).
