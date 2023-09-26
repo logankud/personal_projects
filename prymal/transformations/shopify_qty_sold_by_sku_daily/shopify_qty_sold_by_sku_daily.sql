@@ -4,13 +4,14 @@ INSERT INTO "prymal-analytics"."shopify_qty_sold_by_sku_daily"
 with line_items as (
 
 SELECT CAST(order_date AS DATE) as order_date
-, sku
+, CASE WHEN sku = '' THEN 'NOT_REPORTED'
+    ELSE sku end as sku
 , title
 , SUM(quantity) as qty_sold
 FROM "prymal"."shopify_line_items"
-WHERE year = '2023' 
-AND month = '09'
-AND day = '17'
+WHERE year = '{PARTITION_YEAR}' 
+AND month = '{PARTITION_MONTH}'
+AND day = '{PARTITION_DAY}'
 GROUP BY order_date
 ,sku
 , title
