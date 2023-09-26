@@ -3,8 +3,8 @@ botocore
 requests
 pandas
 datetime
-plotly.express
-plotly.graph_objects
+plotly
 dash
 dash_core_components
 dash_html_components
+
