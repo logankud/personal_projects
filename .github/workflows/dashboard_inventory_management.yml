@@ -1,4 +1,4 @@
-name: Deploy Dash app to Heroku
+name: Dashboard - Inventory Management (Dash on Heroku)
 
 on:
   push:
