@@ -68,7 +68,7 @@ def update_linechart(where_clause):
         order_date  
     """ 
 
-    response = athena_client.start_query_execution(
+    response = athena_client.start_query_execution( 
             QueryString=query,
             QueryExecutionContext={
                 'Database': 'prymal-analytics'
