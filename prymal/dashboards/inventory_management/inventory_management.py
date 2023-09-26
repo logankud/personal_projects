@@ -55,7 +55,7 @@ app.layout = html.Div([
 )
 def update_linechart(where_clause):
 
-    # Generate the Athena query.
+    # Athena query
     query = f"""
     SELECT
         order_date
