@@ -1,5 +1,5 @@
 
-INSERT INTO shopify_qty_sold_by_sku_daily
+INSERT INTO "prymal-analytics"."shopify_qty_sold_by_sku_daily"
 
 with line_items as (
 
