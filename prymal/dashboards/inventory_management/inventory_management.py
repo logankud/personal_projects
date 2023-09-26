@@ -92,8 +92,8 @@ def update_linechart(where_clause):
     figure = go.Figure()
     figure.add_trace(
         go.Scatter(
-            x=df['x_column'],
-            y=df['y_column'],
+            x=df.iloc[:,0],
+            y=df.iloc[:,1],
             mode='lines',
         )
     )
