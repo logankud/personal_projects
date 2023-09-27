@@ -6,7 +6,7 @@ from dash.dependencies import Input, Output
 import boto3
 import pandas as pd
 import plotly.graph_objects as go
-import os
+import os 
 
 # Transformation SQL Query as code (path)
 QUERY_PATH = 'prymal/transformations/shopify_qty_sold_by_sku_daily/shopify_qty_sold_by_sku_daily.sql'
