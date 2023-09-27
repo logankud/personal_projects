@@ -27,6 +27,9 @@ jobs:
         run: pip install -r prymal/dashboards/requirements.txt
 
       - name: Build Dash app
+        env: 
+            AWS_ACCESS_KEY:  ${{ secrets.AWS_ACCESS_KEY }}
+            AWS_ACCESS_SECRET: ${{ secrets.AWS_ACCESS_SECRET }}
         run: python prymal/dashboards/inventory_management/inventory_management.py build
 
       - name: Build, Push and Release a Docker container to Heroku. # Your custom step name
