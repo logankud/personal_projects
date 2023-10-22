@@ -1,5 +1,6 @@
 CREATE EXTERNAL TABLE IF NOT EXISTS shopify_qty_sold_by_sku_daily(
- order_date DATE
+, order_date DATE
+, sku STRING
 , sku_name STRING
 , qty_sold INT
 
