@@ -291,7 +291,7 @@ def read_query_to_string(path: str):
     # Return query as string
     return query_str
 
-
+# FUNCTION TO EXECUTE ATHENA QUERY AND RETURN RESULTS
 def run_athena_query(query:str, database: str):
 
         
