@@ -25,6 +25,8 @@ QUERY_PATH = 'prymal/create_table/shopify_qty_sold_by_sku_daily/create_shopify_q
 AWS_ACCESS_KEY_ID=os.environ['AWS_ACCESS_KEY']
 AWS_SECRET_ACCESS_KEY=os.environ['AWS_ACCESS_SECRET']
 
+logger.info('credentials read.')
+
 
 # -------------------------------------
 # Functions
