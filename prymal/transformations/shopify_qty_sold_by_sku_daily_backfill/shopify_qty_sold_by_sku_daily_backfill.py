@@ -453,7 +453,7 @@ QUERY_STR = read_query_to_string(path=QUERY_PATH)
 
 
 START_DATE = pd.to_datetime('2023-04-01').strftime('%Y-%m-%d')
-END_DATE = pd.to_datetime('2023-06-30').strftime('%Y-%m-%d')
+END_DATE = pd.to_datetime('2023-04-01').strftime('%Y-%m-%d')
 
 while START_DATE <= END_DATE:
 
@@ -492,5 +492,5 @@ while START_DATE <= END_DATE:
         logger.info('Athena query did not run successfully.')
 
     START_DATE = pd.to_datetime(pd.to_datetime(START_DATE) + timedelta(1)).strftime('%Y-%m-%d')
-    
+
 
