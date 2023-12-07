@@ -478,8 +478,8 @@ while START_DATE <= END_DATE:
 
         QUERY = f"""
 
-        ALTER TABLE shopify_line_items ADD
-        PARTITION (order_date = '{START_DATE}')
+        ALTER TABLE shopify_qty_sold_by_sku_daily ADD
+        PARTITION (partition_date = DATE('{START_DATE}'))
         
         """
 
