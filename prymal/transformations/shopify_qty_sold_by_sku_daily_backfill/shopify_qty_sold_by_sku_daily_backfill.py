@@ -491,5 +491,6 @@ while START_DATE <= END_DATE:
     else: 
         logger.info('Athena query did not run successfully.')
 
-    START_DATE = pd.to_datetime(START_DATE + timedelta(1)).strftime('%Y-%m-%d')
+    START_DATE = pd.to_datetime(pd.to_datetime(START_DATE) + timedelta(1)).strftime('%Y-%m-%d')
+    
 
