@@ -479,9 +479,11 @@ while START_DATE <= END_DATE:
         QUERY = f"""
 
         ALTER TABLE shopify_qty_sold_by_sku_daily ADD
-        PARTITION (partition_date = DATE('{START_DATE}'))
+        PARTITION (partition_date = '{START_DATE}')
         
         """
+
+        logger.info(QUERY)
 
         # RUN ATHENA QUERY TO UPDATE PARTITION 
         run_athena_query_no_results(query=QUERY, database='prymal')
