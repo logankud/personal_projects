@@ -12,4 +12,4 @@ load_date DATE
 )
 ROW FORMAT DELIMITED 
 FIELDS TERMINATED BY ',' 
-LOCATION 's3://prymal/skus/shopify/'
+LOCATION 's3://prymal-ops/skus/shopify/'
