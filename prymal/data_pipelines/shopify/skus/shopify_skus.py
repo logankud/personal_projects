@@ -2,7 +2,7 @@
 
 import boto3
 import base64
-from botocore.exceptions import BotoCoreError, ClientError, NoCredentialsError, PartialCredentialsError
+from botocore.exceptions import BotoCoreError, ClientError, NoCredentialsError, PartialCredentialsError, ParamValidationError, WaiterError
 import pandas as pd
 import datetime
 from datetime import timedelta
@@ -264,6 +264,85 @@ def run_glue_crawler(crawler_name:str):
     # Return response
     return response
 
+
+# --------------
+# Function to run Athena query , not return results
+# --------------
+
+
+def run_athena_query_no_results(query:str, database: str):
+
+        
+    # Initialize Athena client
+    athena_client = boto3.client('athena', 
+                                 region_name='us-east-1',
+                                 aws_access_key_id=AWS_ACCESS_KEY_ID,
+                                 aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
+    # Execute the query
+    try:
+        response = athena_client.start_query_execution(
+            QueryString=query,
+            QueryExecutionContext={
+                'Database': database
+            },
+            ResultConfiguration={
+                'OutputLocation': 's3://prymal-ops/athena_query_results/'  # Specify your S3 bucket for query results
+            }
+        )
+
+        query_execution_id = response['QueryExecutionId']
+
+        # Wait for the query to complete
+        state = 'RUNNING'
+
+        while (state in ['RUNNING', 'QUEUED']):
+            response = athena_client.get_query_execution(QueryExecutionId = query_execution_id)
+            logger.info(f'Query is in {state} state..')
+            if 'QueryExecution' in response and 'Status' in response['QueryExecution'] and 'State' in response['QueryExecution']['Status']:
+                # Get currentstate
+                state = response['QueryExecution']['Status']['State']
+
+                if state == 'FAILED':
+                    logger.error('Query Failed!')
+                elif state == 'SUCCEEDED':
+                    logger.info('Query Succeeded!')
+
+                    
+    except ParamValidationError as e:
+        logger.error(f"Validation Error (potential SQL query issue): {e}")
+        # Handle invalid parameters in the request, such as an invalid SQL query
+
+    except WaiterError as e:
+        logger.error(f"Waiter Error: {e}")
+        # Handle errors related to waiting for query execution
+
+    except ClientError as e:
+        error_code = e.response['Error']['Code']
+        error_message = e.response['Error']['Message']
+        
+        if error_code == 'InvalidRequestException':
+            logger.error(f"Invalid Request Exception: {error_message}")
+            # Handle issues with the Athena request, such as invalid SQL syntax
+            
+        elif error_code == 'ResourceNotFoundException':
+            logger.error(f"Resource Not Found Exception: {error_message}")
+            # Handle cases where the database or query execution does not exist
+            
+        elif error_code == 'AccessDeniedException':
+            logger.error(f"Access Denied Exception: {error_message}")
+            # Handle cases where the IAM role does not have sufficient permissions
+            
+        else:
+            logger.error(f"Athena Error: {error_code} - {error_message}")
+            # Handle other Athena-related errors
+
+    except Exception as e:
+        logger.error(f"Other Exception: {str(e)}")
+        # Handle any other unexpected exceptions
+
+
+
 # --------------------------------------------------------------------------------------
 
 # -------------------------------------
@@ -293,6 +372,17 @@ if data_already_exists == True:
     # If data was successfully deleted
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
         logger.error(f'ERROR when deleting objects from {S3_PREFIX_PATH}')
+
+
+
+
+# Run ALTER TABLE query
+QUERY = f"""
+        ALTER TABLE prymal_skus_shopify ADD PARTITION(load_date='{CURRENT_DATE}')
+
+"""
+
+run_athena_query_no_results(query=QUERY, database='prymal')
     
 
 # Write pandas dataframe to specified S3 path
