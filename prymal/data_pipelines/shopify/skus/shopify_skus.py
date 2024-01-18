@@ -378,7 +378,7 @@ if data_already_exists == True:
 
 # Run ALTER TABLE query
 QUERY = f"""
-        ALTER TABLE prymal_skus_shopify ADD PARTITION(load_date='{CURRENT_DATE}')
+        ALTER TABLE skus_shopify ADD PARTITION(load_date='{CURRENT_DATE}')
 
 """
 
