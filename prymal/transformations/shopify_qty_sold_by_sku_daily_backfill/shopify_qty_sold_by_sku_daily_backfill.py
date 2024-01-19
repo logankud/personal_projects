@@ -452,7 +452,7 @@ def run_athena_query_no_results(query:str, database: str):
 QUERY_STR = read_query_to_string(path=QUERY_PATH)
 
 
-START_DATE = pd.to_datetime('2023-06-01').strftime('%Y-%m-%d')
+START_DATE = pd.to_datetime('2020-01-01').strftime('%Y-%m-%d')
 END_DATE = pd.to_datetime('today').strftime('%Y-%m-%d')
 
 while START_DATE <= END_DATE:
