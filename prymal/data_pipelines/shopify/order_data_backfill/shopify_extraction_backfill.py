@@ -181,7 +181,7 @@ d_end = sdate.strftime('%d')
 
 # Set the end_date (which is the oldest date of data we want, where the loop will terminate)
 end_date = pacific.localize(
-  datetime.datetime(int(y_end), int(m_end), int(d_end), 1, 0,
+  datetime.datetime(int(y_end), int(m_end), int(d_end), 0, 0,
                     0))  # datetime.date(%Y,%m,%d,%H,%M,%S)
 
 logger.info('backfill start date: ', START_DATE)
