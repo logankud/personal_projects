@@ -353,7 +353,7 @@ def run_athena_query_no_results(query:str, database: str):
 CURRENT_DATE = pd.to_datetime('today').strftime('%Y-%m-%d')
 
 # Read current shopify_skus.csv file into memory
-df = pd.read_csv('prymal/data_pipelines/shopify/skus/shopify_skus.csv')
+df = pd.read_csv('prymal/data_pipelines/shopify/skus/shopify_skus.csv') 
 
 logger.info(f'Publishing shopify_skus.csv as new partition in prymal_shopify_skus Glue table')
 
