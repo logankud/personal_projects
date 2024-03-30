@@ -452,7 +452,7 @@ def run_athena_query_no_results(query:str, database: str):
 QUERY_STR = read_query_to_string(path=QUERY_PATH)
 
 
-START_DATE = pd.to_datetime('2018-01-01').strftime('%Y-%m-%d')
+START_DATE = pd.to_datetime('2024-03-20').strftime('%Y-%m-%d')
 END_DATE = pd.to_datetime('today').strftime('%Y-%m-%d')
 
 while START_DATE <= END_DATE:
@@ -462,6 +462,9 @@ while START_DATE <= END_DATE:
     DATE_Y = pd.to_datetime(START_DATE).strftime('%Y')
     DATE_M = pd.to_datetime(START_DATE).strftime('%m')
     DATE_D = pd.to_datetime(START_DATE).strftime('%d')
+
+    # Deleting data if it exists (to maintain idempotency)
+    delete_s3_prefix_data(bucket=BUCKET, s3_prefix=f'shopify/shopify_qty_sold_by_sku_daily/partition_date={pd.to_datetime(START_DATE).strftime("%Y-%m-%d")}')
         
     # Plug in yesterday's date into partition variables
     QUERY_FORMATTED = QUERY_STR.replace('{PARTITION_YEAR}',
