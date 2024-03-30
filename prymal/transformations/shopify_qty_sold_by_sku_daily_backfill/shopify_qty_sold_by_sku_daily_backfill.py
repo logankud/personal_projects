@@ -450,6 +450,24 @@ def run_athena_query_no_results(query:str, database: str):
 # ============================================================================
 
 
+# Create a boto3 session
+session = boto3.Session()
+
+# Create an STS client
+sts_client = session.client('sts', 
+                            region_name = REGION,
+                            aws_access_key_id=AWS_ACCESS_KEY_ID,
+                            aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
+# Get caller identity
+caller_identity = sts_client.get_caller_identity()
+
+# Extract the IAM role from the ARN
+arn = caller_identity.get('Arn', '')
+
+# Log the role ARN
+logger.info(f'Current IAM role ARN: {arn}')
+
 # Read sql from .sql to string
 QUERY_STR = read_query_to_string(path=QUERY_PATH)
 
