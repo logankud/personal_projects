@@ -111,25 +111,19 @@ def delete_s3_prefix_data(bucket:str, s3_prefix:str):
                             aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
     try:
-                                                                                
         # Use list_objects_v2 to list all objects within the specified prefix
         objects_to_delete = s3_client.list_objects_v2(Bucket=bucket, Prefix=s3_prefix)
-
-        # Extract the list of object keys
         keys_to_delete = [obj['Key'] for obj in objects_to_delete.get('Contents', [])]
 
-        # Check if there are objects to delete
+        # Batch delete if there are objects to delete
         if keys_to_delete:
-            # Delete the objects using 'delete_objects'
-            response = s3_client.delete_objects(
-                Bucket=bucket,
-                Delete={'Objects': [{'Key': key} for key in keys_to_delete]}
-            )
-            logger.info(f"Deleted {len(keys_to_delete)} objects")
+            # Prepare the list of objects for batch deletion
+            delete_dict = {'Objects': [{'Key': key} for key in keys_to_delete]}
+            response = s3_client.delete_objects(Bucket=bucket, Delete=delete_dict)
+            logger.info(response)
+            logger.info(f"Deleted {len(keys_to_delete)} objects from {bucket}/{s3_prefix}")
         else:
             logger.info("No objects to delete")
-
-        return response
 
     except NoCredentialsError:
                 # Handle missing AWS credentials
@@ -450,29 +444,11 @@ def run_athena_query_no_results(query:str, database: str):
 # ============================================================================
 
 
-# Create a boto3 session
-session = boto3.Session()
-
-# Create an STS client
-sts_client = session.client('sts', 
-                            region_name = REGION,
-                            aws_access_key_id=AWS_ACCESS_KEY_ID,
-                            aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
-
-# Get caller identity
-caller_identity = sts_client.get_caller_identity()
-
-# Extract the IAM role from the ARN
-arn = caller_identity.get('Arn', '')
-
-# Log the role ARN
-logger.info(f'Current IAM role ARN: {arn}')
-
 # Read sql from .sql to string
 QUERY_STR = read_query_to_string(path=QUERY_PATH)
 
 
-START_DATE = pd.to_datetime('2024-03-24').strftime('%Y-%m-%d')
+START_DATE = pd.to_datetime('2024-03-20').strftime('%Y-%m-%d')
 END_DATE = pd.to_datetime('today').strftime('%Y-%m-%d')
 
 while START_DATE <= END_DATE:
@@ -483,8 +459,8 @@ while START_DATE <= END_DATE:
     DATE_M = pd.to_datetime(START_DATE).strftime('%m')
     DATE_D = pd.to_datetime(START_DATE).strftime('%d')
 
-    # Deleting data if it exists (to maintain idempotency)
-    delete_s3_prefix_data(bucket='prymal-analytics', s3_prefix=f'shopify/shopify_qty_sold_by_sku_daily/partition_date={pd.to_datetime(START_DATE).strftime("%Y-%m-%d")}')
+    # Deleting data if it exists (to maintain idempotency)     # !!!!! PERMISSIONS ERRORS NEED TO BE RESOLVED
+    # delete_s3_prefix_data(bucket='prymal-analytics', s3_prefix=f'shopify/shopify_qty_sold_by_sku_daily/partition_date={pd.to_datetime(START_DATE).strftime("%Y-%m-%d")}')
         
     # Plug in yesterday's date into partition variables
     QUERY_FORMATTED = QUERY_STR.replace('{PARTITION_YEAR}',
@@ -509,7 +485,7 @@ while START_DATE <= END_DATE:
         logger.info(QUERY)
 
         # RUN ATHENA QUERY TO UPDATE PARTITION 
-        run_athena_query_no_results(query=QUERY, database='prymal')
+        run_athena_query_no_results(query=QUERY, database='prymal-analytics')
 
     else: 
         logger.info('Athena query did not run successfully.')
