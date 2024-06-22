@@ -1,4 +1,7 @@
 sku,product_category,product_type,sku_name
+01,Accessory,Wooden Spoon,Sustainable Wooden Measuring Spoon
+03,Accessory,Frother,Aerolatte Milk Frother - White
+04,Accessory,Frother,Aerolatte Milk Frother - Red
 1,Accessory,Wooden Spoon,Sustainable Wooden Measuring Spoon
 3,Accessory,Frother,Aerolatte Milk Frother - White
 4,Accessory,Frother,Aerolatte Milk Frother - Red
@@ -280,3 +283,13 @@ ROUTEINS82,Insurance,Insurance,Route Package Protection - 118.63
 ROUTEINS83,Insurance,Insurance,Route Package Protection - 125.88
 ROUTEINS84,Insurance,Insurance,Route Package Protection - 133.13
 ROUTEINS85,Insurance,Insurance,Route Package Protection - 140.38
+121,Creamer,Limited Edition Creamer - Large Bag,Crackerjacks - Large Bag (320 g)
+900,Sachet - Creamer,Limited Edition Single Serve Sachet,White Chocolate Mocha - Single Serve Sachet (1 ct)
+912,Sachet - Creamer,Limited Edition Single Serve Sachet,Nutella Latte - Single Serve Sachet (1 ct)
+915,Sachet - Creamer,Classic Single Serve Sachet,Cinnamon Dolce - Single Serve Sachet (1 ct)
+916,Sachet - Creamer,Classic Single Serve Sachet (10 Pack),Cinnamon Dolce - Single Serve Sachet (10 Pack)
+917,Sachet - Creamer,Classic Single Serve Sachet (10 Pack),Birthday Cake - Single Serve Sachet (10 Pack)
+918,Sachet - Creamer,Limited Edition Single Serve Sachet (10 Pack),Nutella Latte - Single Serve Sachet (10 Pack)
+919,Sachet - Creamer,Limited Edition Single Serve Sachet (10 Pack),Blueberry Pancakes - Single Serve Sachet (10 Pack)
+920,Sachet - Creamer,Limited Edition Single Serve Sachet (10 Pack),Coconut Caramel Truffle - Single Serve Sachet (10 Pack)
+921,Sachet - Creamer,Limited Edition Single Serve Sachet (10 Pack),White Chocolate Mocha - Single Serve Sachet (10 Pack)
