@@ -29,7 +29,6 @@ SHOPIFY_API_KEY = os.environ['SHOPIFY_API_KEY']
 SHOPIFY_API_PASSWORD = os.environ['SHOPIFY_API_PASSWORD']
 
 API_VERSION = '2021-07'
--
 START_DATE = pd.to_datetime(pd.to_datetime('2024-08-01') - timedelta(hours=5)).strftime('%Y-%m-%d 00:00:00')
 END_DATE = pd.to_datetime(pd.to_datetime('today') - timedelta(days=1,hours=5)).strftime('%Y-%m-%d 23:59:59')
 # END_DATE = pd.to_datetime(pd.to_datetime('today') - timedelta(1)).strftime('%Y-%m-%d 23:59:59')
